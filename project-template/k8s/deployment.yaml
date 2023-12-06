@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: odp-riskcontrol-vue
+
+    labels:
+        app: odp-riskcontrol-vue
+spec:
+    replicas: ${replicas}
+    revisionHistoryLimit: 10
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxSurge: 1
+            maxUnavailable: 1
+    selector:
+        matchLabels:
+            app: odp-riskcontrol-vue
+    template:
+        metadata:
+            labels:
+                app: odp-riskcontrol-vue
+        spec:
+            containers:
+                - name: odp-riskcontrol-vue
+                  image: ${IMAGE}
+                  imagePullPolicy: Always
+                  env:
+                      - name: aliyun_logs_logtail-${SERVICENAME}
+                        value: stdout
+                  ports:
+                      - containerPort: 8443
+                        name: http
+                  livenessProbe:
+                      tcpSocket:
+                          port: 8443
+                      initialDelaySeconds: ${DelaySeconds}
+                      periodSeconds: ${periodSeconds}
+                  readinessProbe:
+                      tcpSocket:
+                          port: 8443
+                      initialDelaySeconds: ${DelaySeconds}
+                      periodSeconds: ${periodSeconds}
+                  lifecycle:
+                      preStop:
+                          exec:
+                              command: ['nginx', '-s', 'quit']
+                  resources:
+                      limits:
+                          cpu: ${limitsCPU}m
+                          memory: ${limitsMEM}Mi
+                      requests:
+                          cpu: ${requestsCPU}m
+                          memory: ${requestsMEM}Mi
+                  securityContext:
+                      runAsNonRoot: true
+                      runAsUser: 101
+                      allowPrivilegeEscalation: false
+                      readOnlyRootFilesystem: true
+                  volumeMounts:
+                      - mountPath: /etc/nginx/ssl
+                        name: nginx-https
+                      - mountPath: /etc/nginx/nginx.conf
+                        name: nginx-config
+                        subPath: nginx.conf
+                      - mountPath: /var/cache/nginx
+                        name: cache-volume
+                      - mountPath: /var/run
+                        name: pid-volume
+            volumes:
+                - name: nginx-https
+                  secret:
+                      secretName: odp-https
+                - name: nginx-config
+                  configMap:
+                      name: odp-riskcontrol-vue-configmap
+                - name: pid-volume
+                  emptyDir: {}
+                - name: cache-volume
+                  emptyDir: {}

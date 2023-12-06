@@ -1,0 +1,125 @@
+// 左侧菜单样式
+.menu-list-wrap {
+    .sub-menu-select-icon {
+        color: #222;
+    }
+    .ant-menu-sub {
+        .ant-menu-item {
+            margin: 0;
+            height: auto;
+            line-height: normal;
+            background-color: #fff;
+        }
+        .menu-item {
+            padding: 14px 0;
+            margin-left: 17px;
+            line-height: 16px;
+        }
+    }
+    .icon-wrap {
+        display: flex;
+        align-items: center;
+        line-height: normal;
+    }
+    & > .ant-menu-submenu {
+        .ant-menu-submenu-title {
+            margin: 0;
+            padding: 18px 38px 22px 24px !important;
+            height: 64px;
+            line-height: 64px;
+
+            &:hover {
+                background-color: #f9f9f9;
+            }
+        }
+
+        &.ant-menu-submenu-selected {
+            .ant-menu-submenu-title {
+                position: relative;
+                &::before {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    content: '';
+                    width: 16px;
+                    height: 64px;
+                    background: url(../../assets/images/selected-submenu-icon.png) center / contain
+                        no-repeat;
+                }
+                background-color: #f9f9f9;
+                .ant-menu-title-content .sub-menu {
+                    font-weight: bold;
+                }
+            }
+            .ant-menu-item.ant-menu-item-selected {
+                .ant-menu-title-content {
+                    font-weight: bold;
+                }
+            }
+        }
+        &.ant-menu-submenu-open {
+            .sub-menu-select-icon {
+                transition: ease 0.35s;
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    & > .ant-menu-item {
+        position: relative;
+        margin: 0;
+        padding: 18px 38px 22px 24px !important;
+        height: 64px;
+        line-height: 64px;
+
+        &:hover,
+        &.ant-menu-item-selected {
+            background-color: #f9f9f9;
+        }
+
+        &.ant-menu-item-selected {
+            &::before {
+                position: absolute;
+                left: 0;
+                top: 0;
+                content: '';
+                width: 16px;
+                height: 64px;
+                background: url(../../assets/images/selected-submenu-icon.png) center / contain
+                    no-repeat;
+            }
+            .menu-item {
+                font-weight: bold;
+            }
+        }
+
+        .menu-item {
+            padding: 14px 0;
+            line-height: 16px;
+        }
+    }
+}
+
+/// 左侧菜单收起时样式
+.ant-menu-inline-collapsed {
+    .ant-menu-submenu-title .ant-menu-title-content,
+    & > .ant-menu-item,
+    .menuItem .ant-menu-title-content {
+        margin-left: 17px;
+    }
+
+    .menu-item,
+    .sub-menu {
+        transition: opacity 0.5s;
+        opacity: 0;
+    }
+}
+
+// odpm-content
+.odpm-content {
+    background-color: #edeff3;
+}
+
+.ant-card {
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
